@@ -1,11 +1,11 @@
 
-from flask import Flask
+from flask import Flask, redirect
 
 app = Flask(__name__)
 
 @app.route('/')
 def hello():
-    return "Hello world"
+    return redirect('/static/hello.html')
 
 def create_app():
     return app
