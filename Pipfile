@@ -17,3 +17,4 @@ python_version = "3.7"
 [scripts]
 app-dev = 'env FLASK_ENV=development FLASK_APP=webrcon.py flask run'
 app-prod = "waitress-serve --call 'webrcon:create_app'"
+app-sock = "waitress-serve --unix-socket=/tmp/webrcon --unix-socket-perms=777 --call 'webrcon:create_app'"
