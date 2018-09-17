@@ -6,6 +6,7 @@ name = "pypi"
 [packages]
 mcrcon = {editable = true, git = "https://github.com/barneygale/MCRcon"}
 flask = "*"
+waitress = "*"
 
 [dev-packages]
 ipython = "*"
@@ -14,5 +15,5 @@ ipython = "*"
 python_version = "3.7"
 
 [scripts]
-app = 'env FLASK_APP=webrcon.py flask run'
-
+app-dev = 'env FLASK_ENV=development FLASK_APP=webrcon.py flask run'
+app-prod = "waitress-serve --call 'webrcon:create_app'"
