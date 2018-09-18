@@ -1,8 +1,9 @@
 
 from flask import Flask, url_for, render_template, g
 
-import mcrcon
 import os
+
+from . import rcon
 
 def create_app(test_config=None):
 
@@ -19,24 +20,13 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    def get_rcon():
-        if 'rcon' not in g:
-            g.rcon = mcrcon.MCRcon()
-            g.rcon.connect(
-                app.config.get('RCON_HOST'),
-                app.config.get('RCON_PORT'),
-                app.config.get('RCON_PASSWORD'),
-            )
-        return g.rcon
-
     @app.route('/')
     def hello():
         return render_template('hello.html')
 
     @app.route('/players')
     def players():
-        rcon = get_rcon()
-        response = rcon.command('list')
+        response = rcon.get_rcon().command('list')
         return render_template('players.html', response=response)
 
     return app
