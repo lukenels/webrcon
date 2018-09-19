@@ -26,8 +26,22 @@ def create_app(test_config=None):
 
     @app.route('/players')
     def players():
-        response = rcon.get_rcon().command('list')
-        players = response.split(':')[1].split(', ')
+        r = rcon.get_rcon()
+
+        online = set(r.command('list').split(':')[1].split(', '))
+        whitelist = r.command('whitelist list').split(':')[1].split(', ')
+
+        # Stupid minecraft returns an "and" in the list
+        if len(whitelist) > 0 and ' and ' in whitelist[-1]:
+            (name1, name2) = whitelist[-1].split(' and ')
+            whitelist[-1] = name1
+            whitelist.append(name2)
+
+        players = [{
+            'name': n,
+            'online': n in online,
+        } for n in whitelist]
+
         return render_template('players.html', players=players)
 
     return app

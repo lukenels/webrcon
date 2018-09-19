@@ -5,6 +5,8 @@
 
 {% block content %}
 
+<h1></h1>
+
 <table class="centered">
   <thead>
     <tr>
@@ -16,8 +18,11 @@
   <tbody>
     {% for player in players %}
     <tr>
-      <td>{{ player }}</td>
-      <td><a class="waves-effect waves-light btn"><i class="material-icons right">close</i>Kick</a></td>
+      <td>{{ player.name }}</td>
+      <td>
+        <a class="waves-effect waves-light btn {{'' if player.online else 'disabled'}}">
+          <i class="material-icons right">close</i>Kick</a>
+      </td>
     </tr>
     {% endfor %}
   </tbody>
