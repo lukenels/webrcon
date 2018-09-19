@@ -8,6 +8,7 @@ mcrcon = {editable = true, git = "https://github.com/barneygale/MCRcon"}
 flask = "*"
 waitress = "*"
 mcstatus = "*"
+redis = "*"
 
 [dev-packages]
 ipython = "*"

@@ -5,7 +5,6 @@ from flask import (
 
 from . import rcon
 
-
 bp = Blueprint('players', __name__, url_prefix='/players')
 
 @bp.route('/')

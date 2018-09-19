@@ -3,6 +3,8 @@ from flask import g, current_app
 
 import mcrcon
 
+from .caching import get_cache, cached
+
 def get_rcon():
     if 'rcon' not in g:
         g.rcon = mcrcon.MCRcon()
@@ -18,7 +20,9 @@ def get_online_players():
     return set(get_rcon().command('list').split(':')[1].split(', '))
 
 
+@cached(key='player-whitelist')
 def get_whitelist():
+
     whitelist = get_rcon().command('whitelist list').split(':')[1].split(', ')
     # Stupid minecraft returns an "and" in the list
     if len(whitelist) > 0 and ' and ' in whitelist[-1]:
