@@ -35,7 +35,7 @@ def get_skin_url(uuid):
     return textures['textures']['SKIN']['url']
 
 
-@cached(key='minecraft-user-face-{}')
+@cached(key='minecraft-user-face-{}', timeout=60*60*2)
 def get_user_face(username):
     try:
         skinurl = get_skin_url(get_uuid(username))
