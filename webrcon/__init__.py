@@ -3,8 +3,6 @@ from flask import Flask, url_for, render_template, g
 
 import os
 
-from . import rcon
-
 def create_app(test_config=None):
 
     app = Flask(__name__, instance_relative_config=True)
@@ -24,16 +22,7 @@ def create_app(test_config=None):
     def hello():
         return render_template('hello.html')
 
-    @app.route('/players')
-    def players():
-
-        online = rcon.get_online_players()
-
-        players = [{
-            'name': n,
-            'online': n in online,
-        } for n in rcon.get_whitelist()]
-
-        return render_template('players.html', players=players)
+    from . import players
+    app.register_blueprint(players.bp)
 
     return app
