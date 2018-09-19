@@ -28,14 +28,8 @@ def create_app(test_config=None):
     def players():
         r = rcon.get_rcon()
 
-        online = set(r.command('list').split(':')[1].split(', '))
-        whitelist = r.command('whitelist list').split(':')[1].split(', ')
-
-        # Stupid minecraft returns an "and" in the list
-        if len(whitelist) > 0 and ' and ' in whitelist[-1]:
-            (name1, name2) = whitelist[-1].split(' and ')
-            whitelist[-1] = name1
-            whitelist.append(name2)
+        online = rcon.get_online_players()
+        whitelist = rcon.get_whitelist()
 
         players = [{
             'name': n,
