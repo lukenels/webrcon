@@ -27,6 +27,7 @@ def create_app(test_config=None):
     @app.route('/players')
     def players():
         response = rcon.get_rcon().command('list')
-        return render_template('players.html', response=response)
+        players = response.split(':')[1].split(', ')
+        return render_template('players.html', players=players)
 
     return app

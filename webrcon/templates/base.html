@@ -2,18 +2,19 @@
 <html>
   <head>
 
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/materialize.min.css') }}" />
+    <script src="{{ url_for('static', filename='js/materialize.min.js') }}"></script>
+
     <title>{% block title %}{% endblock %}</title>
 
-    <style>
-        body {
-            color: green;
-            font-family: monospace;
-        }
-    </style>
+
   </head>
 
   <body>
+    <div class="container">
     {% block content %}
     {% endblock %}
+    </div>
   </body>
 </html>
