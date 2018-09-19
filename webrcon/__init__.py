@@ -26,15 +26,13 @@ def create_app(test_config=None):
 
     @app.route('/players')
     def players():
-        r = rcon.get_rcon()
 
         online = rcon.get_online_players()
-        whitelist = rcon.get_whitelist()
 
         players = [{
             'name': n,
             'online': n in online,
-        } for n in whitelist]
+        } for n in rcon.get_whitelist()]
 
         return render_template('players.html', players=players)
 
