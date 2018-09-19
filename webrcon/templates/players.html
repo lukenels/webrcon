@@ -3,6 +3,17 @@
 
 {% block title %}Players{% endblock %}
 
+{% block head %}
+
+<style>
+.face {
+  width: 16px;
+  height: 16px;
+}
+</style>
+
+{% endblock %}
+
 {% block content %}
 
 <h4>Players</h4>
@@ -18,7 +29,7 @@
   <tbody>
     {% for player in players %}
     <tr>
-      <td>{{ player.name }}</td>
+      <td>{{ player.name }} <img class="face" src="{{url_for('players.face', name=player.name)}}"></img> </td>
       <td>
         <a class="waves-effect waves-light btn {{'' if player.online else 'disabled'}}">
           <i class="material-icons right">close</i>Kick</a>

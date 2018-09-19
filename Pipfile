@@ -9,6 +9,8 @@ flask = "*"
 waitress = "*"
 mcstatus = "*"
 redis = "*"
+requests = "*"
+pillow = "*"
 
 [dev-packages]
 ipython = "*"

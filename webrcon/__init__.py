@@ -20,6 +20,8 @@ def create_app(test_config=None):
 
     @app.route('/')
     def hello():
+        from .mojang import get_user_face
+        get_user_face('Keller42')
         return render_template('hello.html')
 
     from . import players

@@ -14,14 +14,15 @@ def get_cache():
     return g.cache
 
 
-def cached(key):
+def cached(key, timeout=300):
     def wrap(f):
         @wraps(f)
         def inner(*args, **kwargs):
-            obj = get_cache().get(key)
+            rkey = key.format(*args, **kwargs)
+            obj = get_cache().get(rkey)
             if obj is None:
                 obj = f(*args, **kwargs)
-                get_cache().set(key, obj)
+                get_cache().set(rkey, obj, timeout=timeout)
             return obj
         return inner
     return wrap
