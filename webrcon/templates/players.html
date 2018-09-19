@@ -1,17 +1,10 @@
-<!doctype html>
-<html>
-  <head>
 
-    <style>
-        body {
-            font-family: monospace;
-        }
-    </style>
-  </head>
+{% extends 'base.html' %}
 
-  <body>
-      <p>
-        {{ response }}
-      </p>
-  </body>
-</html>
+{% block title %}Players{% endblock %}
+
+{% block content %}
+
+{{ response }}
+
+{% endblock %}

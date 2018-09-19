@@ -1,24 +1,16 @@
-<!doctype html>
-<html>
-  <head>
+{% extends 'base.html' %}
 
-    <style>
-        body {
-            color: green;
-            font-family: monospace;
-        }
-    </style>
-  </head>
+{% block title %}Welcome!{% endblock %}
 
-  <body>
-      <h1>Welcome to the rhubarb zone!</h1>
-      <p>
-        Soon there will be cool stuff here with FTB server
-        integrations. For now you can just look at this cute cat
-        with bread on its head.
+{% block content %}
 
-      </p>
-        <img src="{{ url_for('static', filename='breadcat.jpg')}}" alt="cat with bread" />
+<h1>Welcome to the rhubarb zone!</h1>
+<p>
+  Soon there will be cool stuff here with FTB server
+  integrations. For now you can just look at this cute cat
+  with bread on its head.
 
-  </body>
-</html>
+</p>
+<img src="{{ url_for('static', filename='breadcat.jpg')}}" alt="cat with bread" />
+
+{% endblock %}
