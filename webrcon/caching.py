@@ -14,7 +14,7 @@ def get_cache():
     return g.cache
 
 
-def cached(key, timeout=300):
+def cached(key, *, timeout=300):
     def wrap(f):
         @wraps(f)
         def inner(*args, **kwargs):
