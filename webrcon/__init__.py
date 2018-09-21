@@ -24,6 +24,9 @@ def create_app(test_config=None):
         get_user_face('Keller42')
         return render_template('hello.html')
 
+    from . import db
+    db.init_app(app)
+
     from . import players
     app.register_blueprint(players.bp)
 
