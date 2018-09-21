@@ -27,4 +27,7 @@ def create_app(test_config=None):
     from . import players
     app.register_blueprint(players.bp)
 
+    from . import internal
+    app.register_blueprint(internal.bp)
+
     return app
