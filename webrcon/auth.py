@@ -124,9 +124,14 @@ def challenge():
 
             db.execute('INSERT INTO user (mc_username, password_hash) VALUES (?, ?)',
                 (mc_username, password_hash))
+            db.execute('DELETE FROM challenge WHERE mc_username = ?', (mc_username,))
             db.commit()
 
-            return redirect(url_for('auth.login'))
+            id = db.execute('SELECT * FROM user WHERE mc_username = ?', (mc_username,)).fetchone()['id']
+
+            session.clear()
+            session['user_id'] = id
+            return redirect(url_for('hello'))
 
         flash(error)
 
