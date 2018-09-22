@@ -31,8 +31,14 @@
     <tr>
       <td>{{ player.name }} <img class="face" src="{{url_for('players.face', name=player.name)}}"></img> </td>
       <td>
-        <a class="waves-effect waves-light btn {{'' if player.online else 'disabled'}}">
-          <i class="material-icons right">close</i>Kick</a>
+        <form method="post" action="{{url_for('players.kick', name=player.name)}}">
+          {{ player.form.csrf_token }}
+        <button
+            type="submit"
+            name="action"
+            class="waves-effect waves-light btn {{'' if player.online else 'disabled'}}">
+          <i class="material-icons right">close</i>Kick</button>
+        </form>
       </td>
     </tr>
     {% endfor %}
