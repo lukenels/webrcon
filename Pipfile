@@ -11,6 +11,8 @@ mcstatus = "*"
 redis = "*"
 requests = "*"
 pillow = "*"
+wtforms = "*"
+flask-wtf = "*"
 
 [dev-packages]
 ipython = "*"

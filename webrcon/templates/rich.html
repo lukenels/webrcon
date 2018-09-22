@@ -1,0 +1,32 @@
+
+{% extends 'base.html' %}
+
+{% block head %}
+
+<script src="{{ url_for('static', filename='js/d3.min.js') }}"></script>
+
+<script type="application/javascript">
+
+function update() {
+  let svg = d3.select('svg');
+
+  svg.data([1,2,3])
+    .enter().
+    .append('circle')
+    .attr('r', '2.5');
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  update();
+});
+
+
+</script>
+
+{% endblock head %}
+
+{% block body %}
+
+<svg></svg>
+
+{% endblock body %}

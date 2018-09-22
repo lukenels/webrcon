@@ -43,6 +43,15 @@
 
 
     <div class="container">
+
+    {% for message in get_flashed_messages() %}
+      <div class="card-panel teal">
+        <span class="white-text">
+          {{ message }}
+        </span>
+      </div>
+    {% endfor %}
+
     {% block content %}
     {% endblock %}
     </div>

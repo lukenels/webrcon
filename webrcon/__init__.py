@@ -1,6 +1,8 @@
 
 from flask import Flask, url_for, render_template, g
 
+from flask_wtf import CSRFProtect
+
 import os
 
 def create_app(test_config=None):
@@ -18,10 +20,10 @@ def create_app(test_config=None):
     except OSError:
         pass
 
+    csrf = CSRFProtect(app)
+
     @app.route('/')
     def hello():
-        from .mojang import get_user_face
-        get_user_face('Keller42')
         return render_template('hello.html')
 
     from . import db
@@ -32,5 +34,8 @@ def create_app(test_config=None):
 
     from . import internal
     app.register_blueprint(internal.bp)
+
+    from . import auth
+    app.register_blueprint(auth.bp)
 
     return app
