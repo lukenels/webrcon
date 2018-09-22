@@ -12,7 +12,7 @@ def diamonds():
     db = get_db()
 
     db.execute(
-        "INSERT INTO diamonds (number, timestamp) VALUES (?, datetime('%s', 'now', 'unixepoch'))",
+        "INSERT INTO diamonds (number, timestamp) VALUES (?, datetime('now'))",
         (request.form.get('number'),)
     )
 
