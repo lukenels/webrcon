@@ -10,6 +10,7 @@ import base64
 import os
 
 from . import rcon
+from . import user
 
 from flask_wtf import FlaskForm
 
@@ -39,7 +40,6 @@ class RegistrationForm(FlaskForm):
 
 
 class ChallengeForm(FlaskForm):
-    username = StringField('Username')
     mc_username = StringField('Minecraft Username')
     challenge = StringField('Challenge Token')
     password = PasswordField('New Password', [
@@ -63,8 +63,13 @@ def register():
         if form.mc_username.data not in get_online_players(nocache=True):
             error = 'Player {} is not online.'.format(mc_username)
 
+        elif user.exists_user_with_username(mc_username):
+            error = 'Account already exists for {}'.format(mc_username)
+
         if error is None:
             challenge = base64.encodebytes(os.urandom(15)).decode('utf8')[:-1]
+
+            print(challenge)# FIXME remove
 
             rcon.whisper(mc_username, 'Psst! Your challenge is {}'.format(challenge))
 
@@ -91,7 +96,39 @@ def challenge():
     form.mc_username.data = mc_username
 
     if form.validate_on_submit():
-        pass
+
+        error = None
+
+        mc_username = form.mc_username.data
+        password = form.password.data
+
+        challenge = get_db().execute('SELECT * from challenge WHERE mc_username = ? ORDER BY id DESC LIMIT 1',
+            (mc_username,)).fetchone()
+
+        if challenge is None:
+            error = 'No challenge issued for {}'.format(mc_username)
+        else:
+            challenge = challenge['challenge']
+
+        if form.challenge.data != challenge:
+            error = 'Challenge incorrect!'
+
+        if user.exists_user_with_username(mc_username):
+            error = 'User already exists for minecraft username {}'.format(mc_username)
+
+        if error is None:
+
+            password_hash = generate_password_hash(password)
+
+            db = get_db()
+
+            db.execute('INSERT INTO user (mc_username, password_hash) VALUES (?, ?)',
+                (mc_username, password_hash))
+            db.commit()
+
+            return redirect(url_for('auth.login'))
+
+        flash(error)
 
     return render_template('auth/challenge.html',
         form=form)
@@ -117,7 +154,7 @@ def login():
 
         error = None
         user = db.execute(
-            'SELECT * FROM user WHERE username = ?',
+            'SELECT * FROM user WHERE mc_username = ?',
             (username,)
         ).fetchone()
 
@@ -161,4 +198,4 @@ def login_required(view):
 @bp.route('/whoami')
 @login_required
 def whoami():
-    return g.user['username']
+    return g.user['mc_username']

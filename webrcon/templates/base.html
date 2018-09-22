@@ -29,9 +29,26 @@
 
     <nav>
       <div class="nav-wrapper">
-        <a href="{{url_for('hello')}}" class="brand-logo right">Rhubarb Zone</a>
+
+        <ul class="right">
+
+          {% if g.user %}
+
+          <li>{{g.user['mc_username']}}</li>
+          <li><a class="btn" href="{{url_for('auth.logout')}}">Logout</a>
+
+          {% else %}
+
+          <li><a class="btn" href="{{url_for('auth.login')}}">Login</a></li>
+          <li><a class="btn" href="{{url_for('auth.register')}}">Register</a></li>
+
+          {% endif %}
+
+        </ul>
+
         <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
         <ul id="nav-mobile" class="left hide-on-med-and-down">
+
           <li><a href="{{url_for('players.list')}}">Players</a></li>
         </ul>
       </div>
