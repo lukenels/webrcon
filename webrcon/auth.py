@@ -6,6 +6,10 @@ from flask import (
 )
 
 import functools
+import base64
+import os
+
+from . import rcon
 
 from flask_wtf import FlaskForm
 
@@ -13,7 +17,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 
 from wtforms import (
     Form, PasswordField, StringField,
-    validators,
+    validators, HiddenField,
 )
 
 from .db import get_db
@@ -26,6 +30,71 @@ class LoginForm(FlaskForm):
     password = PasswordField('Password', [
         validators.DataRequired(),
     ])
+
+
+class RegistrationForm(FlaskForm):
+    mc_username = StringField('Minecraft Username', [
+        validators.DataRequired(),
+    ])
+
+
+class ChallengeForm(FlaskForm):
+    username = StringField('Username')
+    mc_username = StringField('Minecraft Username')
+    challenge = StringField('Challenge Token')
+    password = PasswordField('New Password', [
+        validators.DataRequired(),
+        validators.EqualTo('confirm', message='Passwords must match'),
+    ])
+    confirm = PasswordField('Repeat Password')
+
+
+@bp.route('/register', methods=('POST', 'GET'))
+def register():
+
+    from .rcon import whisper, get_online_players
+
+    form = RegistrationForm()
+    if form.validate_on_submit():
+
+        error = None
+        mc_username = form.mc_username.data
+
+        if form.mc_username.data not in get_online_players(nocache=True):
+            error = 'Player {} is not online.'.format(mc_username)
+
+        if error is None:
+            challenge = base64.encodebytes(os.urandom(15)).decode('utf8')[:-1]
+
+            rcon.whisper(mc_username, 'Psst! Your challenge is {}'.format(challenge))
+
+            db = get_db()
+            db.execute(
+                'INSERT INTO challenge (mc_username, challenge) VALUES (?, ?)',
+                (mc_username, challenge)
+            )
+            db.commit()
+
+            return redirect(url_for('auth.challenge', mc_username=mc_username))
+
+        flash(error)
+
+    return render_template('auth/register.html', form=form)
+
+
+@bp.route('/challenge', methods=('POST', 'GET'))
+def challenge():
+
+    mc_username = request.args.get('mc_username')
+
+    form = ChallengeForm()
+    form.mc_username.data = mc_username
+
+    if form.validate_on_submit():
+        pass
+
+    return render_template('auth/challenge.html',
+        form=form)
 
 
 @bp.route('/logout')

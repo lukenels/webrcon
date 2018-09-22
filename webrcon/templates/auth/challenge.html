@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h4>Confirm User Challenge</h4>
+
+{% from '_formhelpers.html' import render_field %}
+
+<form method=post>
+  {{ form.hidden_tag() }}
+  {{ form.csrf_token }}
+  <dl>
+
+    {{ render_field(form.username) }}
+    {{ render_field(form.mc_username, disabled=True) }}
+    {{ render_field(form.challenge) }}
+    {{ render_field(form.password) }}
+    {{ render_field(form.confirm) }}
+
+  </dl>
+  <p><input type=submit value=Register /></p>
+</form>
+
+{% endblock %}

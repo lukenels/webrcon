@@ -34,6 +34,10 @@ def get_whitelist():
     return whitelist
 
 
+def whisper(player, message):
+    get_rcon().command('tell {} {}'.format(player, message))
+
+
 def kick(player, reason=''):
     r = get_rcon().command('kick {} {}'.format(player, reason))
     return r.startswith('Kicked')

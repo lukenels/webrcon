@@ -1,9 +1,17 @@
 DROP TABLE IF EXISTS diamonds;
 DROP TABLE IF EXISTS user;
+DROP TABLE IF EXISTS challenge;
+
+CREATE TABLE challenge (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  mc_username TEXT NOT NULL,
+  challenge TEXT NOT NULL
+);
 
 CREATE TABLE user (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   username TEXT UNIQUE NOT NULL,
+  mc_username TEXT UNIQUE NOT NULL,
   password_hash TEXT NOT NULL
 );
 

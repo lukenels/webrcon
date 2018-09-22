@@ -20,7 +20,9 @@ def cached(key, *, timeout=300):
         def inner(*args, **kwargs):
             rkey = key.format(*args, **kwargs)
             obj = get_cache().get(rkey)
-            if obj is None:
+            if obj is None or ('nocache' in kwargs and kwargs['nocache']):
+                if 'nocache' in kwargs:
+                    del kwargs['nocache']
                 obj = f(*args, **kwargs)
                 get_cache().set(rkey, obj, timeout=timeout)
             return obj
