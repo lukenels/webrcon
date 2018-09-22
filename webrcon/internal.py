@@ -7,7 +7,6 @@ bp = Blueprint('internal', __name__, url_prefix='/internal')
 
 @bp.route('/diamonds', methods=('POST',))
 def diamonds():
-    print(request.form['number'])
 
     db = get_db()
 

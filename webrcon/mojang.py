@@ -43,7 +43,6 @@ def get_user_face(username):
         abort(404)
     b = requests.get(skinurl).content
     image = Image.open(io.BytesIO(b))
-    print(image.size)
     image = image.crop((8, 8, 16, 16)) # location of face
     out = io.BytesIO()
     image.save(out, format='PNG')
