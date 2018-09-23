@@ -26,6 +26,8 @@ def list():
         'form': KickForm(),
     } for n in rcon.get_whitelist()]
 
+    players.sort(key=lambda x : not x['online'])
+
     return render_template('players.html', players=players)
 
 
