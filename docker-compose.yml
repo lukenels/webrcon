@@ -1,6 +1,6 @@
 version: '3'
 services:
-  web:
+  webrcon:
     build: .
     ports:
       - "127.0.0.1:8080:8080/tcp"
@@ -8,3 +8,11 @@ services:
       - .:/code
   redis:
     image: redis
+  minecraft:
+    image: itzg/minecraft-server
+    ports:
+      - "25565:25565/tcp"
+    volumes:
+      - ./instance/minecraft:/data
+    environment:
+      - EULA=TRUE
