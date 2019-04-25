@@ -4,3 +4,5 @@ DATABASE = 'db.sqlite'
 RCON_HOST = '127.0.0.1'
 RCON_PORT = 25575
 RCON_PASSWORD = 'XXX'
+
+REDIS_HOST = 'redis'
