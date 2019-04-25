@@ -18,7 +18,7 @@ def get_rcon():
 
 @cached(key='online-players', timeout=20)
 def get_online_players():
-    return set(get_rcon().command('list').split(':')[1].split(', '))
+    return set(get_rcon().command('list').split(':')[1].strip().split(', '))
 
 
 @cached(key='player-whitelist')

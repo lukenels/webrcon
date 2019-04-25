@@ -8,6 +8,7 @@ from flask import (
 import functools
 import base64
 import os
+import sys
 
 from . import rcon
 from . import user
