@@ -3,6 +3,6 @@ DATABASE = 'db.sqlite'
 
 RCON_HOST = 'minecraft'
 RCON_PORT = 25575
-RCON_PASSWORD = 'XXX'
+RCON_PASSWORD = 'minecraft'
 
 REDIS_HOST = 'redis'
